@@ -12,7 +12,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: test
 
     steps:
       - uses: actions/checkout@v3
@@ -45,12 +44,4 @@ jobs:
           push: true
           tags: ghcr.io/inab/github-metadata-api:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
 
-    steps:
-      - name: Deploy to server
-        run: |
-          echo "Deploying to server..."
-          # Add your deployment steps here (e.g., SSH into a server and pull the image)
