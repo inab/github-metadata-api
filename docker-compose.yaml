@@ -1,0 +1,13 @@
+version: "3"
+services:
+
+  node-api:
+    image: 
+    ports:
+      - "49160:8080"
+    volumes:
+      - ./variables/:/app/variables
+  
+  redis-server:
+    image: redis:6.2-alpine
+    restart: always

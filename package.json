@@ -1,0 +1,33 @@
+{
+  "name": "github-metadata-api",
+  "version": "0.0.1",
+  "description": "API that can be used to extract metadata from a GitHub repository and update the metadata of a GitHub.",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "jest"
+  },
+  "author": "Eva Martin del Pico",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "bibtex-js-parser": "^1.1.6",
+    "bibtex-parser": "^0.0.0",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "install": "^0.13.0",
+    "js-yaml": "^4.1.0",
+    "jsonld": "^8.1.1",
+    "morgan": "^1.10.0",
+    "octokit": "^2.0.14",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22"
+  }
+}
