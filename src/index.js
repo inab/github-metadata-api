@@ -38,9 +38,19 @@ app.use(helmet());
 app.use(require('./metadataExtractor/routes'));
 app.use(require('./metadataUpdater/routes'));
 
+var options = {
+    customCss: '.swagger-ui .topbar { display: none }',
+    customSiteTitle: "GitHub Metadata API",
+    customfavIcon: "/assets/favicon.ico"
+  };
+
+const path = require('path');
+app.get('/assets/favicon.ico', (req, res) => {
+    res.sendFile(path.join(__dirname, './assets', 'favicon.ico'));
+});
 
 // Serve Swagger docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, options));
 
 
 // Starting the server

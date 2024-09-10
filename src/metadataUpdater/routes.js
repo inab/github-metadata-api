@@ -201,7 +201,7 @@ router.post('/metadata/pull', async (req, res) => {
 
 
     try{
-        const content = jsonToBase64(metadata);
+        const content = metadata;
         
         console.debug('content created')
         const octokit = await getOctokit(installationID);

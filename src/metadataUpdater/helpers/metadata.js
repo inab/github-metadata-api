@@ -215,6 +215,14 @@ async function createFile(octokit, owner, repo, branchName, path, content, messa
 
     let contents;
 
+    // Log the content and its type
+    console.log('Content:', content);
+    console.log('Type of content:', typeof content);
+
+    // Optionally, you can check if the content is a valid base64 string
+    const isBase64 = Buffer.from(content, 'base64').toString('base64') === content;
+    console.log('Is content a valid base64 string?', isBase64);
+
     try {
         // Check if the file already exists
         contents = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
@@ -241,7 +249,7 @@ async function createFile(octokit, owner, repo, branchName, path, content, messa
             branch: branchName,
             message: message,
             committer: {
-                name: 'Metadata Updater fir FAIRsoft',
+                name: 'Metadata Updater for FAIRsoft',
                 email: 'openebench@bsc.es'
             },
             content: content // The new file content, using Base64 encoding.
