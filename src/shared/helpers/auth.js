@@ -10,21 +10,27 @@ const { Octokit, App } = require('octokit');
  * @returns {Promise<App>} - A promise that resolves to an authenticated instance of octokit.
  */
 async function authApp(appID, privateKeyPath) {
+    const fs = require("fs");
 
-    // reading the app private key from the appropriate file
-    const fs = require("fs");    
-    var myKey = fs.readFileSync(privateKeyPath, "utf8");
-    
-    console.debug(`appID: ${appID}`);
-    console.debug(`myKey: ${myKey}`);
+    try {
+        // Reading the app private key from the appropriate file
+        var myKey = fs.readFileSync(privateKeyPath, "utf8");
 
-    const app = await new App({
-        appId: appID,
-        privateKey: myKey,
-    });
+        console.debug(`appID: ${appID}`);
+        console.debug(`myKey: ${myKey}`);
 
-    return app;
+        // Creating the app instance
+        const app = await new App({
+            appId: appID,
+            privateKey: myKey,
+        });
 
+        return app;
+    } catch (error) {
+        // Log the error and return null or an appropriate value
+        console.error("Error in authApp:", error);
+        return null; // or throw new Error('Failed to authenticate app') if you want to propagate the error
+    }
 }
 
 /**
