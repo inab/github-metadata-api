@@ -31,7 +31,7 @@ node src/index.js
 
 ## API Reference 
 
-The API reference is available in the following [link](). 
+The API reference is available in the following [link](https://observatory.openebench.bsc.es/github-metadata-api/api-docs/). 
 
 
 ## License
