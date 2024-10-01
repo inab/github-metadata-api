@@ -528,7 +528,9 @@ function parseCitationCFF(citationContent, metadata) {
         return metadata;
 
     } catch (error) {
-        throw new Error(`Error parsing CITATION.cff: ${error.message}`);
+        // log error 
+        console.error('Error parsing CITATION.cff:', error);
+        return metadata;
     }
 }
 
