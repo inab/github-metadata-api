@@ -36,8 +36,6 @@ async function getOctokit(installationID) {
 } 
 
 
-
-
 /**
  * Converts a JSON object into a Base64-encoded string.
  * 
@@ -60,49 +58,36 @@ function jsonToBase64(object) {
 }
 
 
+async function getTargetBranch(octokit, owner, repo, branchName) {
+    console.log('Fetching details of branch', branchName);
+    const resp = await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
+        owner: owner,
+        repo: repo,
+        branch: branchName,
+    })
 
-/**
- * Asynchronously retrieves the SHA of the master (or main) branch in a GitHub repository.
- * 
- * This function fetches all branches of a specified repository, identifies the branch named "master" or "main",
- * and returns the SHA of that branch, the branch name, and a list of all branch names in the repository.
- * 
- * @param {object} octokit - An authenticated Octokit instance used to interact with the GitHub API.
- * @param {string} owner - The GitHub username or organization that owns the repository.
- * @param {string} repo - The name of the GitHub repository.
- * 
- * @returns {object|null} - An object containing the following properties:
- *                          - `masterSHA` (string): The SHA of the master or main branch.
- *                          - `branchName` (string): The name of the branch ("master" or "main").
- *                          - `allBranchNames` (string[]): An array of all branch names in the repository.
- *                        - Returns `null` if neither "master" nor "main" branches are found.
- * 
- * @example
- * // Example usage:
- * const branchInfo = await getSHAofMaster(octokit, 'exampleUser', 'exampleRepo');
- * console.log(branchInfo.masterSHA); // Outputs the SHA of the master or main branch
- * 
- * @throws {Error} If there is an issue with the GitHub API request.
- */
-async function getSHAofMaster(octokit, owner, repo) {
+    const branch = resp.data;
+    
+    return {
+        mainSHA: branch.commit.sha,
+        mainName: branch.name,
+    }
+    
+}
+
+
+async function getBranchesNames(octokit, owner, repo) {
     const resp = await octokit.request('GET /repos/{owner}/{repo}/branches', {
         owner: owner,
         repo: repo,
     })
-
     const branches = resp.data;
-    const all_branch_names = branches.map((branch) => branch.name);
-    for (const branch of branches) {
-        if (branch.name == 'master' || branch.name == 'main'){
-            info('SHA of master branch: ' + branch.commit.sha)
-            return { 
-                masterSHA : branch.commit.sha,
-                branchName : branch.name,
-                allBranchNames : all_branch_names
-        };
-        }
-    }
-    return null;
+    const allBranchesNames = branches.map((branch) => branch.name);
+
+    console.log('All branches names: ', allBranchesNames)
+
+    return allBranchesNames
+
 }
 
 
@@ -127,13 +112,13 @@ async function getSHAofMaster(octokit, owner, repo) {
  * @throws {Error} If the input branches object does not contain a valid array of branch names.
  */
 function generateBranchName(branches) {
-    if (!branches.allBranchNames || !Array.isArray(branches.allBranchNames)) {
+    if (!branches || !Array.isArray(branches)) {
         throw new Error('Invalid input: allBranchNames must be an array.');
     }
 
     // Regex to match 'evaluator' or 'evaluator-n' and capture the number
     const re = /^evaluator(?:-(\d+))?$/;
-    const evaluator_branches = branches.allBranchNames.map(branch => {
+    const evaluator_branches = branches.map(branch => {
         const match = re.exec(branch);
         return match ? parseInt(match[1], 10) || 0 : null;
     }).filter(number => number !== null);
@@ -324,7 +309,8 @@ async function createPullRequest(octokit, owner, repo, head, base, title, body) 
 module.exports = {
     getOctokit,
     jsonToBase64,
-    getSHAofMaster,
+    getBranchesNames,
+    getTargetBranch,
     generateBranchName,
     createBranch,
     createFile,

@@ -395,7 +395,7 @@ router.post('/metadata/content', async (req, res) => {
     console.log('Request received:', req.body);
 
     const { owner, repo, path, installationID } = req.body;
-    console.debug('Parameters:', { owner, repo, path, installationID });
+    console.debug('Parameters:', { owner, repo, path, installationID, ref: 'main' });
 
     let resp;
 
@@ -411,6 +411,7 @@ router.post('/metadata/content', async (req, res) => {
             owner,
             repo,
             path,
+            ref,
             accept: 'application/vnd.github+json'
         });
 
