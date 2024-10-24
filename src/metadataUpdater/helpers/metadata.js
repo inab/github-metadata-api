@@ -50,7 +50,7 @@ async function getOctokit(installationID) {
  * // Example usage:
  * const myObject = { key: "value" };
  * const base64String = jsonToBase64(myObject);
- * console.log(base64String); // Outputs the Base64 string
+ * console.debug(base64String); // Outputs the Base64 string
  */
 function jsonToBase64(object) {
     const json = JSON.stringify(object);
@@ -59,7 +59,7 @@ function jsonToBase64(object) {
 
 
 async function getTargetBranch(octokit, owner, repo, branchName) {
-    console.log('Fetching details of branch', branchName);
+    console.debug('Fetching details of branch', branchName);
     const resp = await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}', {
         owner: owner,
         repo: repo,
@@ -84,7 +84,7 @@ async function getBranchesNames(octokit, owner, repo) {
     const branches = resp.data;
     const allBranchesNames = branches.map((branch) => branch.name);
 
-    console.log('All branches names: ', allBranchesNames)
+    console.debug('All branches names: ', allBranchesNames)
 
     return allBranchesNames
 
@@ -107,7 +107,7 @@ async function getBranchesNames(octokit, owner, repo) {
  * @example
  * // Example usage:
  * const newBranchName = generateBranchName({ allBranchNames: ['master', 'evaluator', 'evaluator-1'] });
- * console.log(newBranchName); // Outputs: "evaluator-2"
+ * console.debug(newBranchName); // Outputs: "evaluator-2"
  * 
  * @throws {Error} If the input branches object does not contain a valid array of branch names.
  */
@@ -146,12 +146,12 @@ function generateBranchName(branches) {
  * @example
  * // Example usage:
  * const response = await createBranch(octokit, 'exampleUser', 'exampleRepo', 'new-branch', 'abc123def456');
- * console.log(response.data); // Outputs the details of the created branch
+ * console.debug(response.data); // Outputs the details of the created branch
  * 
  * @throws {Error} If the GitHub API request fails, an error is thrown with the relevant information.
  */
 async function createBranch(octokit, owner, repo, branchName, sha) {
-    console.log('Creating new branch:', branchName);
+    console.debug('Creating new branch:', branchName);
 
     try {
         const resp = await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
@@ -161,7 +161,7 @@ async function createBranch(octokit, owner, repo, branchName, sha) {
             sha: sha,
         });
         
-        console.log('Branch created successfully:', branchName);
+        console.debug('Branch created successfully:', branchName);
         return resp;
     } catch (error) {
         console.error('Error creating branch:', error.message);
@@ -190,26 +190,26 @@ async function createBranch(octokit, owner, repo, branchName, sha) {
  * @example
  * // Example usage:
  * const response = await createFile(octokit, 'exampleUser', 'exampleRepo', 'new-branch', 'path/to/file.txt', 'SGVsbG8gd29ybGQ=', 'Add hello world file');
- * console.log(response.data); // Outputs the details of the created or updated file
+ * console.debug(response.data); // Outputs the details of the created or updated file
  * 
  * @throws {Error} If an error occurs during the process, an error is thrown with the relevant information.
  */
 async function createFile(octokit, owner, repo, branchName, path, content, message) {
-    console.log('Creating or updating file:', path);
-    console.log('Repository:', owner, repo);
+    console.debug('Creating or updating file:', path);
+    console.debug('Repository:', owner, repo);
 
     94727
     let contents;
 
     // Log the content and its type
-    console.log('Content:', content);
-    console.log('Type of content:', typeof content);
+    console.debug('Content:', content);
+    console.debug('Type of content:', typeof content);
 
 
 
     // Optionally, you can check if the content is a valid base64 string
     const isBase64 = Buffer.from(content, 'base64').toString('base64') === content;
-    console.log('Is content a valid base64 string?', isBase64);
+    console.debug('Is content a valid base64 string?', isBase64);
 
     try {
         // Check if the file already exists
@@ -246,14 +246,14 @@ async function createFile(octokit, owner, repo, branchName, path, content, messa
         if (contents && contents.status === 200) {
             // File already exists, update the file
             requestConfig.sha = contents.data.sha;
-            console.log('File exists, updating:', path);
+            console.debug('File exists, updating:', path);
         } else {
             // File does not exist, create it
-            console.log('File does not exist, creating:', path);
+            console.debug('File does not exist, creating:', path);
         }
 
         const resp = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', requestConfig);
-        console.log('File created/updated successfully:', path);
+        console.debug('File created/updated successfully:', path);
         return resp;
     } catch (error) {
         console.error('Error creating or updating file:', error.message);
@@ -281,12 +281,12 @@ async function createFile(octokit, owner, repo, branchName, path, content, messa
  * @example
  * // Example usage:
  * const response = await createPullRequest(octokit, 'exampleUser', 'exampleRepo', 'feature-branch', 'main', 'Add new feature', 'This pull request adds a new feature...');
- * console.log(response.data); // Outputs the details of the created pull request
+ * console.debug(response.data); // Outputs the details of the created pull request
  * 
  * @throws {Error} If an error occurs during the pull request creation, an error is thrown with the relevant information.
  */
 async function createPullRequest(octokit, owner, repo, head, base, title, body) {
-    console.log('Creating pull request from branch:', head, 'to branch:', base);
+    console.debug('Creating pull request from branch:', head, 'to branch:', base);
 
     try {
         const resp = await octokit.request('POST /repos/{owner}/{repo}/pulls', {
@@ -299,7 +299,7 @@ async function createPullRequest(octokit, owner, repo, head, base, title, body) 
             accept: 'application/vnd.github+json'
         });
 
-        console.log('Pull request created successfully:', resp.data.html_url);
+        console.debug('Pull request created successfully:', resp.data.html_url);
         return resp;
     } catch (error) {
         console.error('Error creating pull request:', error.message);
