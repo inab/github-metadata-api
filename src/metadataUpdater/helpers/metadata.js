@@ -198,11 +198,14 @@ async function createFile(octokit, owner, repo, branchName, path, content, messa
     console.log('Creating or updating file:', path);
     console.log('Repository:', owner, repo);
 
+    94727
     let contents;
 
     // Log the content and its type
     console.log('Content:', content);
     console.log('Type of content:', typeof content);
+
+
 
     // Optionally, you can check if the content is a valid base64 string
     const isBase64 = Buffer.from(content, 'base64').toString('base64') === content;
