@@ -89,10 +89,10 @@ jobs:
       # Build and tag Docker image using the version fetched in the previous job
       - name: Build and tag Docker image
         run: |
-          docker build -t ghcr.io/inab/observatory-api:${{ needs.tag_version.outputs.version }} -t ghcr.io/inab/observatory-api:latest .
+          docker build -t ghcr.io/inab/github-metadata-api:${{ needs.tag_version.outputs.version }} -t ghcr.io/inab/github-metadata-api:latest .
 
       # Push Docker image to the registry
       - name: Push Docker image
         run: |
-          docker push ghcr.io/inab/observatory-api:${{ needs.tag_version.outputs.version }}
-          docker push ghcr.io/inab/observatory-api:latest
+          docker push ghcr.io/inab/github-metadata-api:${{ needs.tag_version.outputs.version }}
+          docker push ghcr.io/inab/github-metadata-api:latest
