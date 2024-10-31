@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: github-metadata-api
+authors:
+- given-names: Eva Martin del Pico
+  email: eva.mdpico@gmail.com
+version: v1.0.2
+repository: https://github.com/inab/github-metadata-api
+url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
