@@ -2,7 +2,7 @@ const fs = require('fs');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 // Read version from the VERSION file in the parent directory
-const version = fs.readFileSync('../VERSION', 'utf8').trim();
+const version = fs.readFileSync('VERSION', 'utf8').trim();
 
 const options = {
   swaggerDefinition: {
