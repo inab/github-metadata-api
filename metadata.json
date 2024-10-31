@@ -1,0 +1,63 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "bs": "https://bioschemas.org/terms/",
+    "codemeta": "https://w3id.org/codemeta/",
+    "rdf": "https://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "https://www.w3.org/2000/01/rdf-schema#",
+    "maSMP": "https://discovery.biothings.io/view/maSMP/"
+  },
+  "@type": "schema:SoftwareApplication",
+  "schema:applicationSubcategory": [
+    "https://github.com/topics/github",
+    "https://github.com/topics/nodejs",
+    "https://github.com/topics/software-metadata",
+    "https://github.com/topics/metadata-extraction"
+  ],
+  "schema:additionalType": "api",
+  "schema:name": "github-metadata-api",
+  "@id": "https://openebench.bsc.es/bioschemas/tools/observatory:github-metadata-api:v1.0.2/api",
+  "schema:description": "API to extract metadata from a GitHub repository and update files. ",
+  "schema:applicationCategory": "api",
+  "schema:operatingSystem": [
+    "Windows",
+    "MacOS",
+    "Linux"
+  ],
+  "schema:license": [
+    {
+      "@type": "schema:CreativeWork",
+      "schema:name": "MIT"
+    }
+  ],
+  "schema:author": [
+    {
+      "@type": "schema:Person",
+      "schema:name": "Eva Martin del Pico",
+      "schema:email": "eva.mdpico@gmail.com"
+    }
+  ],
+  "schema:softwareVersion": "v1.0.2",
+  "schema:codeRepository": [
+    "https://github.com/inab/github-metadata-api"
+  ],
+  "schema:featureList": [
+    "edam:operation_3908"
+  ],
+  "bioschemas:output": [
+    {
+      "@type": "https://bioschemas.org/FormatParameter",
+      "bioschemas:encodingFormat": "edam:format_3464"
+    }
+  ],
+  "schema:softwareHelp": [
+    {
+      "@id": "https://github.com/inab/github-metadata-api/blob/main/README.md"
+    }
+  ],
+  "schema:requirements": [
+    "Node"
+  ],
+  "schema:dateModified": "2024-10-31T16:41:13Z",
+  "codemeta:readme": "https://github.com/inab/github-metadata-api/blob/main/README.md"
+}
