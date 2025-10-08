@@ -5,5 +5,17 @@ authors:
 - given-names: Eva Martin del Pico
   email: eva.mdpico@gmail.com
 version: v1.0.2
+license: "MIT"
 repository: https://github.com/inab/github-metadata-api
+url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
+preferred-citation:
+type: software
+  title: "GitHub Metadata Extractor and Updater API"
+  version: "1.0.2"
+  authors:
+    - family-names: "Martín del Pico"
+      given-names: "Eva"
+  institution: "Barcelona Supercomputing Center (BSC) – INB"
+  license: "MIT"
+  repository-code: "https://github.com/inab/github-metadata-api"
 url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
