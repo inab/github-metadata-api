@@ -9,7 +9,7 @@ license: "MIT"
 repository: https://github.com/inab/github-metadata-api
 url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
 preferred-citation:
-type: software
+  type: software
   title: "GitHub Metadata Extractor and Updater API"
   version: "1.0.2"
   authors:
@@ -18,4 +18,4 @@ type: software
   institution: "Barcelona Supercomputing Center (BSC) – INB"
   license: "MIT"
   repository-code: "https://github.com/inab/github-metadata-api"
-url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
+  url: https://observatory.openebench.bsc.es/github-metadata-api/api-docs/
