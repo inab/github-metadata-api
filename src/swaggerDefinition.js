@@ -8,7 +8,7 @@ const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'GitHub Metadata API',
+      title: 'GitHub Metadata API'
       // version: version, // Use the version read from the file
     },
   },
