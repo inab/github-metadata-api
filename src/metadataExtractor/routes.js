@@ -10,6 +10,7 @@ const {
     removeDuplicatePublications,
     extractJournalPublication
 } = require('./helpers/metadata');
+const { fetchDependencies } = require('./helpers/dependencies');
 var  { authApp, authUser }  = require('../shared/helpers/auth');
 const { getInstallationID } = require('../shared/helpers/installation');
 var info = require('debug')('node-api:info');
@@ -108,8 +109,10 @@ router.get('/metadata-extractor-for-fairsoft/installation/id', (req, res) => {
  *       2. Retrieves the installation's Octokit instance.
  *       3. Fetches repository metadata.
  *       4. Optionally fetches documentation files and README content.
- *       5. Extracts and processes citation information.
- *       6. Optionally prepares the metadata before sending the response.
+ *       5. Optionally extracts the declared dependencies from the package manifests
+ *          and lock files at the repository root.
+ *       6. Extracts and processes citation information.
+ *       7. Optionally prepares the metadata before sending the response.
  *     tags:
  *       - Metadata Extractor for FAIRsoft
  *     requestBody:
@@ -137,6 +140,13 @@ router.get('/metadata-extractor-for-fairsoft/installation/id', (req, res) => {
  *                 type: boolean
  *                 description: Whether to extract metadata from the repository's README file.
  *                 default: false
+ *               dependencies_extract:
+ *                 type: boolean
+ *                 description: >
+ *                   Whether to extract the declared dependencies from the package manifests
+ *                   and lock files at the repository root. Covers Python, JavaScript/TypeScript,
+ *                   R, Rust and Go. Costs one additional GraphQL request.
+ *                 default: true
  *     responses:
  *       200:
  *         description: Successfully fetched the repository metadata.
@@ -165,7 +175,7 @@ router.get('/metadata-extractor-for-fairsoft/installation/id', (req, res) => {
  *                   example: An error occurred
  */
 router.post('/metadata', async (req, res) => {
-    const { owner, repo, installationID, prepare = true, readme_extract = false } = req.body;
+    const { owner, repo, installationID, prepare = true, readme_extract = false, dependencies_extract = true } = req.body;
 
     try {
         info('Authenticating app');
@@ -180,6 +190,11 @@ router.post('/metadata', async (req, res) => {
         info('Fetching documentation files');
         const documentation = await fetchDocumentationFiles(octokit, owner, repo);
         metadata.documentation = documentation;
+
+        if (dependencies_extract) {
+            info('Fetching dependencies');
+            metadata.dependencies = (await fetchDependencies(octokit, owner, repo)) || [];
+        }
 
         if (readme_extract) {
             info('Fetching README content');
@@ -226,9 +241,11 @@ router.post('/metadata', async (req, res) => {
  *       1. Authenticates the user.
  *       2. Retrieves the repository metadata.
  *       3. Optionally fetches documentation files.
- *       4. Optionally fetches README content.
- *       5. Optionally fetches citation content.
- *       6. Optionally prepares the metadata before sending the response.
+ *       4. Optionally extracts the declared dependencies from the package manifests
+ *          and lock files at the repository root.
+ *       5. Optionally fetches README content.
+ *       6. Optionally fetches citation content.
+ *       7. Optionally prepares the metadata before sending the response.
  *     tags:
  *       - Metadata Extractor for FAIRsoft
  *     requestBody:
@@ -251,6 +268,13 @@ router.post('/metadata', async (req, res) => {
  *               prepare:
  *                 type: boolean
  *                 description: Whether to prepare the repository metadata before returning it.
+ *                 default: true
+ *               dependencies_extract:
+ *                 type: boolean
+ *                 description: >
+ *                   Whether to extract the declared dependencies from the package manifests
+ *                   and lock files at the repository root. Covers Python, JavaScript/TypeScript,
+ *                   R, Rust and Go. Costs one additional GraphQL request.
  *                 default: true
  *     responses:
  *       200:
@@ -280,9 +304,9 @@ router.post('/metadata', async (req, res) => {
  *                   example: An error occurred
  */
 router.post('/metadata/user', async (req, res) => {
-    const { owner, repo, userToken, prepare = true } = req.body;
+    const { owner, repo, userToken, prepare = true, dependencies_extract = true } = req.body;
 
-    try {
+    try { 
         console.info('Authenticating user');
         const octokit = await authUser(userToken);
 
@@ -292,6 +316,11 @@ router.post('/metadata/user', async (req, res) => {
         console.info('Fetching documentation files');
         const documentation = await fetchDocumentationFiles(octokit, owner, repo);
         metadata.documentation = documentation;
+
+        if (dependencies_extract) {
+            console.info('Fetching dependencies');
+            metadata.dependencies = (await fetchDependencies(octokit, owner, repo)) || [];
+        }
 
         console.info('Fetching README content');
         const readmeContent = await getReadmeContent(octokit, owner, repo);

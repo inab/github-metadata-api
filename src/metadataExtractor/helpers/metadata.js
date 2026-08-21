@@ -184,7 +184,7 @@ function buildAuthors(githubObject) {
 }
 
 
-// ------------------------------------------ we are here ----------------------------------------------
+
 
 
 function buildLicense(githubObject) {

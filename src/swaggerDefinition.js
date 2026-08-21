@@ -1,8 +1,9 @@
-const fs = require('fs');
 const swaggerJsdoc = require('swagger-jsdoc');
 
-// Read version from the VERSION file in the parent directory
-const version = fs.readFileSync('../VERSION', 'utf8').trim();
+// package.json is the single source of truth for the version. Resolved relative to
+// this file rather than the process CWD, so it does not depend on where the server
+// was started from.
+const { version } = require('../package.json');
 
 const options = {
   swaggerDefinition: {

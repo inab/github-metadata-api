@@ -1,6 +1,6 @@
 {
   "name": "github-metadata-api",
-  "version": "0.0.1",
+  "version": "1.2.0",
   "description": "API that can be used to extract metadata from a GitHub repository and update the metadata of a GitHub.",
   "main": "src/index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "author": "Eva Martin del Pico",
   "license": "MIT",
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
     "axios": "^1.7.4",
     "bibtex-js-parser": "^1.1.6",
     "bibtex-parser": "^0.0.0",
