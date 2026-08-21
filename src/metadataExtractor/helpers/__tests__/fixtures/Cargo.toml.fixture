@@ -1,0 +1,14 @@
+[package]
+name = "demo"
+rust-version = "1.75"
+
+[dependencies]
+serde = "1.0"
+tokio = { version = "1.35", features = ["full"] }
+extra-thing = { version = "0.1", optional = true }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[build-dependencies]
+cc = "1.0"

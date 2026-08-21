@@ -1,0 +1,14 @@
+module github.com/example/demo
+
+go 1.22
+
+require (
+	github.com/spf13/cobra v1.8.0
+	golang.org/x/text v0.14.0 // indirect
+)
+
+require github.com/stretchr/testify v1.9.0
+
+replace (
+	github.com/bad/pkg => github.com/good/pkg v1.0.0
+)

@@ -1,0 +1,12 @@
+Package: demopkg
+Title: A Demo Package
+Depends:
+    R (>= 4.0),
+    utils
+Imports:
+    dplyr (>= 1.0.0),
+    tidyr,
+    Rcpp
+Suggests:
+    testthat (>= 3.0.0)
+License: MIT
