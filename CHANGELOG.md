@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-09-09
+
+### Fixed
+
+- Documentation URLs returned by `POST /metadata` and `POST /metadata/user` are now built against `HEAD` instead of the hardcoded branch `main`, so they resolve to the repository's actual default branch. Repositories that default to `master` or any other name previously received documentation links that all returned 404.
+
+### Changed
+
+- Documentation files that match no known filename are now typed `unclassified` instead of being labelled with the directory they were found in (`root`, `docs`, `example`). A directory name is not a documentation category.
+
 ## [1.2.0] - 2026-08-21
 
 ### Added
