@@ -393,19 +393,17 @@ function processFiles(files, owner, repo, docTypes, dir = '') {
     return files
         .filter(file => file.type === 'blob' && (file.name.endsWith('.md') || file.name.endsWith('.txt')))
         .map(file => {
+            // `HEAD` is resolved by GitHub to the repository's default branch, whatever
+            // it is named — the listing above is fetched the same way (`HEAD:<path>`).
+            const url = `https://github.com/${owner}/${repo}/blob/HEAD/${dir ? dir + '/' : ''}${file.name}`;
+
             for (const [type, filenames] of Object.entries(docTypes)) {
                 if (filenames.map(f => f.toUpperCase()).includes(file.name.toUpperCase())) {
-                    return {
-                        type: type,
-                        url: `https://github.com/${owner}/${repo}/blob/main/${dir ? dir + '/' : ''}${file.name}`
-                    };
+                    return { type: type, url: url };
                 }
             }
             // If not a known type, return as a general documentation file
-            return {
-                type: `${dir || 'root'}`,
-                url: `https://github.com/${owner}/${repo}/blob/main/${dir ? dir + '/' : ''}${file.name}`
-            };
+            return { type: 'unclassified', url: url };
         });
 }
 
