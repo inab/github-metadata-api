@@ -1,23 +1,17 @@
-
 /**
  * Retrieves the installation ID for a given repository.
+ *
+ * Errors are not caught here: a 404 means the app is not installed on the repository,
+ * and the routes need that status to report it instead of a successful null.
  *
  * @param {Object} app - The GitHub app object.
  * @param {string} owner - The owner of the repository.
  * @param {string} repo - The name of the repository.
  * @returns {Promise<Object>} - A promise that resolves to the installation object.
+ * @throws {Error} If GitHub rejects the request, with the HTTP status in `status`.
  */
 async function getInstallationID(app, owner, repo) {
-    try {
-        // Attempt to fetch the installation ID
-        const installation = await app.octokit.request(`/repos/${owner}/${repo}/installation`);
-        
-        return installation;
-    } catch (error) {
-        // Log the error and return null or an appropriate value
-        console.error("Error in getInstallationID:", error);
-        return null; // or you could return a custom error object or throw an error if needed
-    }
+    return app.octokit.request(`/repos/${owner}/${repo}/installation`);
 }
 
 module.exports = {

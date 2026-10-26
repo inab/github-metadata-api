@@ -86,9 +86,10 @@ router.get('/metadata-extractor-for-fairsoft/installation/id', (req, res) => {
                 status: 200,
             });
         }).catch((error) => {
-            res.json({
+            const status = error.status || 500;
+            res.status(status).json({
                 data: null,
-                status: error.status,
+                status: status,
                 message: error.message,
             });
         });
@@ -220,11 +221,13 @@ router.post('/metadata', async (req, res) => {
             data: metadata,
             status: 200,
         });
-    } catch (error) {
-        error('Error occurred:', error);
-        res.status(error.status || 500).json({
+    } catch (err) {
+        // Not `error`: that name is the debug logger, and shadowing it made this
+        // handler throw instead of responding.
+        error('Error occurred:', err);
+        res.status(err.status || 500).json({
             data: null,
-            message: error.message || 'An error occurred',
+            message: err.message || 'An error occurred',
         });
     }
 });
@@ -424,7 +427,7 @@ router.post('/metadata/content', async (req, res) => {
     console.log('Request received:', req.body);
 
     const { owner, repo, path, installationID } = req.body;
-    console.debug('Parameters:', { owner, repo, path, installationID, ref: 'main' });
+    console.debug('Parameters:', { owner, repo, path, installationID });
 
     let resp;
 
@@ -440,7 +443,6 @@ router.post('/metadata/content', async (req, res) => {
             owner,
             repo,
             path,
-            ref,
             accept: 'application/vnd.github+json'
         });
 

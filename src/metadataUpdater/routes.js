@@ -85,9 +85,10 @@ router.get('/metadata-updater-for-fairsoft/installation/id', (req, res) => {
                 status: 200,
             });
         }).catch((error) => {
-            res.json({
+            const status = error.status || 500;
+            res.status(status).json({
                 data: null,
-                status: error.status,
+                status: status,
                 message: error.message,
             });
         });
@@ -200,6 +201,9 @@ router.post('/metadata/pull', async (req, res) => {
     const finalMessage = message || defaultMessage;
 
 
+    // Declared per request: it was an implicit global shared by concurrent requests.
+    let resp;
+
     try{
         const content = btoa(metadata);  
         console.debug('content created')
@@ -245,12 +249,12 @@ router.post('/metadata/pull', async (req, res) => {
     }catch(e){
         error(e);
         resp = {
-            code: e.status,
+            code: e.status || 500,
             message: e.message
         }
         
     } finally {
-        res.send(resp);
+        res.status(resp.code).send(resp);
     }
     
 })
