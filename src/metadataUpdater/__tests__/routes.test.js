@@ -153,15 +153,17 @@ describe('POST /metadata/pull', () => {
     it('reports the error and creates nothing when the target branch does not exist', async () => {
         const res = await request(app).post('/metadata/pull').send({ ...body, branch: 'nope' });
 
-        expect(res.status).toBe(404);
+        // Errors stay HTTP 200 with the status in `code`: the Evaluator front end reads
+        // the body and breaks on a non-2xx response.
+        expect(res.status).toBe(200);
         expect(res.body).toEqual({ code: 404, message: 'Branch not found' });
         expect(octokit.calls).toEqual([]);
     });
 
-    it('responds 500 when the installation cannot be authenticated', async () => {
+    it('reports code 500 when the installation cannot be authenticated', async () => {
         const res = await request(app).post('/metadata/pull').send({ ...body, installationID: 1 });
 
-        expect(res.status).toBe(500);
+        expect(res.status).toBe(200);
         expect(res.body).toEqual({ code: 500, message: 'Failed to get Octokit instance for installation' });
     });
 });

@@ -104,9 +104,10 @@ code="$(status POST /metadata/content '{"owner":"o","repo":"r","path":"README.md
     || fail "POST /metadata/content responds with an error when GitHub auth fails (HTTP $code)"
 
 code="$(status POST /metadata/pull '{"owner":"o","repo":"r","filename":"f.md","installationID":1,"metadata":"x"}')"
-[ "$code" = "500" ] \
-    && pass "POST /metadata/pull responds with an error when GitHub auth fails" \
-    || fail "POST /metadata/pull responds with an error when GitHub auth fails (HTTP $code)"
+# HTTP 200 with the error in `code`, which is what the Evaluator front end expects.
+[ "$code" = "200" ] && grep -qE '"code": ?500' "$BODY_FILE" \
+    && pass "POST /metadata/pull reports an error when GitHub auth fails" \
+    || fail "POST /metadata/pull reports an error when GitHub auth fails (HTTP $code)"
 
 [ "$(docker inspect -f '{{.State.Running}}' "$CONTAINER")" = "true" ] \
     && pass "container is still running after the error paths" \

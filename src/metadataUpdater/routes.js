@@ -254,7 +254,9 @@ router.post('/metadata/pull', async (req, res) => {
         }
         
     } finally {
-        res.status(resp.code).send(resp);
+        // Always HTTP 200: the Evaluator front end (store/observatory/evaluation/export.js)
+        // reads `code` from the body and has no handler for a non-2xx response.
+        res.send(resp);
     }
     
 })
