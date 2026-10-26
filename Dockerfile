@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:18-alpine
+FROM node:24.22.1-alpine
 
 ENV NODE_ENV=production
 ENV PORT=8080

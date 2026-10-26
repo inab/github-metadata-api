@@ -1,11 +1,14 @@
 {
   "name": "github-metadata-api",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "API that can be used to extract metadata from a GitHub repository and update the metadata of a GitHub.",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "test": "jest"
+  },
+  "engines": {
+    "node": ">=24.22.1"
   },
   "author": "Eva Martin del Pico",
   "license": "MIT",
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "jest": "^29.5.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.4"
   }
 }

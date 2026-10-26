@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2026-10-26
+
+### Security
+
+- Upgraded the Node.js runtime from 18 (end of life) to 24.22.1 to address CVE-2026-111497. The Docker image is now built from `node:24.22.1-alpine`, CI tests run on the same version, and `package.json` declares `engines.node >= 24.22.1`. A `.nvmrc` pins the version for local development.
+
 ## [1.2.1] - 2026-09-09
 
 ### Fixed
