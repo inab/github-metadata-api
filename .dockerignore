@@ -1,0 +1,10 @@
+node_modules/
+npm-debug.log
+.git/
+.DS_Store
+
+# GitHub App private keys and credentials: mounted at runtime (see docker-compose.yaml),
+# never baked into an image.
+variables/
+*.pem
+*.env*

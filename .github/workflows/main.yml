@@ -37,9 +37,20 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+  # Runs the test suite inside the image, then starts the production image and checks
+  # it over HTTP. Needs no credentials and never calls GitHub.
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test the app in its Docker image
+        run: npm run test:docker
+
   build:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [test, docker]
 
     # Only tags publish an image. Covers both the tag push and the release event,
     # since github.ref is refs/tags/<tag> for each.

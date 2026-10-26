@@ -18,9 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `GET /metadata-extractor-for-fairsoft/installation/id` and `GET /metadata-updater-for-fairsoft/installation/id` reported a repository without the app installed as a success with `data: null`. They now respond 404, with the status in the body as well.
 - `POST /metadata/pull` sent failures with HTTP 200. It now uses the error status (404 for a missing target branch, 500 otherwise), and `code` in the body is always set.
 
+- Images built from a local checkout no longer include `variables/` (the GitHub App private keys and `.env`). Images built by CI were not affected.
+
 ### Added
 
 - Route tests for every endpoint (`npm test`), against an in-memory GitHub, so they need no network or credentials.
+- `npm run test:docker`: runs the test suite inside the image on its own Node.js, then starts the production image and checks it over HTTP. CI runs it on every push and pull request, and a release image is only built once it passes.
 
 ## [1.2.1] - 2026-09-09
 
