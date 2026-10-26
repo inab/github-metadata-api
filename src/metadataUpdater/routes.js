@@ -201,7 +201,8 @@ router.post('/metadata/pull', async (req, res) => {
     const finalMessage = message || defaultMessage;
 
 
-    // Declared per request: it was an implicit global shared by concurrent requests.
+    // Declared per request. Undeclared, it was a single global shared by all requests,
+    // which only stayed safe because nothing awaits between assigning and sending it.
     let resp;
 
     try{

@@ -17,8 +17,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `POST /metadata` never responded when a GitHub call failed, leaving the client to time out. It now returns the error status with `{data: null, message}`.
 - `GET /metadata-extractor-for-fairsoft/installation/id` and `GET /metadata-updater-for-fairsoft/installation/id` reported a repository without the app installed as a success with `data: null`. They now respond 404, with the status in the body as well.
 - `POST /metadata/pull` error responses could omit `code`. It is now always set (500 when GitHub gives no status). Errors are still sent with HTTP 200, as the Evaluator front end expects.
-- `POST /metadata/pull` stored its response in a global variable, so concurrent requests could receive each other's result.
-
 - Images built from a local checkout no longer include `variables/` (the GitHub App private keys and `.env`). Images built by CI were not affected.
 
 ### Added
